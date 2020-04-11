@@ -12,12 +12,16 @@ class Blackjack:
 
     def __init__(self, player_name):
         self.player_name = player_name
-
-    def dealer_draw(self):
-        dealer_draw = random.randint(0,51)        
     
+    def check_if_card_played(self, card):
+        self.card = card
+
+    def draw(self):
+        draw = random.randint(0,51)        
+        check_if_card_played(draw)
+
     def __str__(self):
         return self.deck[0][0]
-
+    
 b = Blackjack("Bob")
 print(b.dealer_draw())
