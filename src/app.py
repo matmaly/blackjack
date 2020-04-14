@@ -23,6 +23,8 @@ class Blackjack:
             decision = input()
             if decision == "hit":
                 self.player([self.deck[self.draw()]])
+            elif decision == "stand":
+                pass
             elif decision == "stop":
                 break
 
