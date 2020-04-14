@@ -18,10 +18,12 @@ class Blackjack:
     def __init__(self, player_name):
         self.player_name = player_name
         
+        self.new_game_setup()
         while True:
-            self.new_game_setup()
-            stop = input()
-            if stop == "stop":
+            decision = input()
+            if decision == "hit":
+                self.player([self.deck[self.draw()]])
+            elif decision == "stop":
                 break
 
     # Method that takes the card out of the deck so it can't be used again
