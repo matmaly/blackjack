@@ -12,6 +12,8 @@ class Blackjack:
     cards_left = 51
     player_cards = []
     dealer_cards = []
+    player_score = 0
+    dealer_score = 0
 
     def __init__(self, player_name):
         self.player_name = player_name
@@ -41,18 +43,28 @@ class Blackjack:
         self.player([self.deck[self.draw()],self.deck[self.draw()]])
         self.dealer([self.deck[self.draw()]])
 
-    # Method that displays what cards the player currently has    
+    # Method that displays what cards the player currently has
+    # Adds the total score of the cards
     def player(self, new_cards):
         self.player_cards += new_cards
         
-        print(f"Player: {self.player_cards}")
-    
+        for score in self.player_cards:
+            self.player_score += score[1]
+
+        print(f"Player Cards: {self.player_cards}")
+        print(f"Player Score: {self.player_score}")
+
     # Method that will print the cards that the dealer has
+    # Adds the total score of the cards
     def dealer(self, new_cards):
         self.dealer_cards += new_cards
+        
+        for score in self.dealer_cards:
+            self.dealer_score += score[1]
 
-        print(f"Dealer:  {self.dealer_cards}")
-
+        print(f"Dealer Cards: {self.dealer_cards}")
+        print(f"Dealer Score: {self.dealer_score}")
+    
     def __str__(self):
         return self.deck[0][0]
 
