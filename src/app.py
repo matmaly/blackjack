@@ -51,7 +51,7 @@ class Blackjack:
     # First it calls the player method and passes the deck as parameter, calling the draw method to return a random integer
     def new_game_setup(self):
         self.player([self.deck[self.draw()],self.deck[self.draw()]])
-        self.dealer([self.deck[self.draw()]])
+        self.dealer([self.deck[self.draw()],self.deck[self.draw()]])
 
     # Method that displays what cards the player currently has
     # Adds the total score of the cards
