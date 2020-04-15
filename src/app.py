@@ -12,7 +12,6 @@ class Blackjack:
     cards_left = 51
     player_cards = []
     dealer_cards = []
-    player_score = 0
     dealer_score = 0
 
     def __init__(self, player_name):
@@ -22,7 +21,13 @@ class Blackjack:
         while True:
             decision = input()
             if decision == "hit":
-                self.player([self.deck[self.draw()]])
+                score = self.player([self.deck[self.draw()]])
+                if score == 21:
+                    print("Blackjack")
+                    break
+                elif score > 21:
+                    print("Bust!!!")
+                    break
             elif decision == "stand":
                 pass
             elif decision == "stop":
@@ -51,12 +56,15 @@ class Blackjack:
     # Adds the total score of the cards
     def player(self, new_cards):
         self.player_cards += new_cards
-        
+        self.player_score = 0
+
         for score in self.player_cards:
             self.player_score += score[1]
-
+        
         print(f"Player Cards: {self.player_cards}")
         print(f"Player Score: {self.player_score}")
+        
+        return self.player_score
 
     # Method that will print the cards that the dealer has
     # Adds the total score of the cards
