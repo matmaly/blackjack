@@ -29,11 +29,19 @@ class Blackjack:
                     break
             elif decision == "stand":
                 dealer_score = self.score(self.dealer_cards)
-                if dealer_score < 17:
-                    dealer_score = self.dealer([self.deck[self.draw()]])
+                self.dealer_hit(dealer_score)
             elif decision == "stop":
                 break
     
+    # recursive method that makes dealer hit until he is at 17 or more
+    def dealer_hit(self, dealer_score):
+        self.dealer_score = dealer_score
+
+        if dealer_score >=17:
+            return dealer_score
+        else:
+            return self.dealer_hit(self.dealer([self.deck[self.draw()]]))
+
     # Method that takes the card out of the deck so it can't be used again
     def take_card_out_of_deck(self, card):
         self.card = card
@@ -50,9 +58,17 @@ class Blackjack:
     # Method that sets up the game by giving the player 2 cards and 1 card to the computer
     # First it calls the player method and passes the deck as parameter, calling the draw method to return a random integer
     def new_game_setup(self):
-        self.player([self.deck[self.draw()],self.deck[self.draw()]])
-        self.dealer([self.deck[self.draw()],self.deck[self.draw()]])
+        p_score = self.player([self.deck[self.draw()],self.deck[self.draw()]])
+        d_score = self.dealer([self.deck[self.draw()],self.deck[self.draw()]])
+        
+        '''
+        print(f"Player Cards: {self.player_cards}")
+        print(f"Plaer Score: {p_score}")
+        print("\n")
+        print(f"Dealer Cards: {self.dealer_cards[0]}")
+        print(f"Dealer Score: {self.dealer_cards[0][1]}")
 
+        '''
     # Method that displays what cards the player currently has
     # Adds the total score of the cards
     def player(self, new_cards):
@@ -60,9 +76,6 @@ class Blackjack:
         
         score = self.score(self.player_cards)
 
-        print(f"Player Cards: {self.player_cards}")
-        print(f"Player Score: {score}")
-        
         return score
 
     # Method that will print the cards that the dealer has
@@ -71,10 +84,10 @@ class Blackjack:
         self.dealer_cards += new_cards
         
         score = self.score(self.dealer_cards)
-
+        
         print(f"Dealer Cards: {self.dealer_cards}")
         print(f"Dealer Score: {score}")
-    
+
         return score
 
     def score(self, cards):
@@ -85,6 +98,11 @@ class Blackjack:
             score += card_points[1]
                 
         return score
+    
+    def print_result(self, cards):
+        self.cards = cards
+        
+        print(f"")
 
     def __str__(self):
         return self.deck[0][0]
