@@ -29,12 +29,11 @@ class Blackjack:
                     break
             elif decision == "stand":
                 dealer_score = self.score(self.dealer_cards)
-                while dealer_score < 17:
+                if dealer_score < 17:
                     dealer_score = self.dealer([self.deck[self.draw()]])
-                print(dealer_score)
             elif decision == "stop":
                 break
-
+    
     # Method that takes the card out of the deck so it can't be used again
     def take_card_out_of_deck(self, card):
         self.card = card
