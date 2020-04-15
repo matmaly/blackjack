@@ -28,7 +28,10 @@ class Blackjack:
                     print("Bust!!!")
                     break
             elif decision == "stand":
-                pass    
+                dealer_score = self.score(self.dealer_cards)
+                while dealer_score < 17:
+                    dealer_score = self.dealer([self.deck[self.draw()]])
+                print(dealer_score)
             elif decision == "stop":
                 break
 
@@ -73,6 +76,8 @@ class Blackjack:
         print(f"Dealer Cards: {self.dealer_cards}")
         print(f"Dealer Score: {score}")
     
+        return score
+
     def score(self, cards):
         self.cards = cards
         score = 0
