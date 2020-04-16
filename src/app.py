@@ -16,26 +16,48 @@ class Blackjack:
 
     def __init__(self, player_name):
         self.player_name = player_name
+        self.round_end = False
         
         self.new_game_setup()        
-        self.new_round_setup()
-        while True:
+        bet = self.new_round_setup()
+        while not self.round_end:
+            self.payout(bet, self.check_cards(self.score(self.player_cards)))
             decision = input()
             if decision == "hit":
                 score = self.player([self.deck[self.draw()]])
                 self.print_result("p", self.player_cards, score)
-                if score == 21:
-                    print("Blackjack")
-                    break
-                elif score > 21:
-                    print("Bust!!!")
-                    break
+                self.payout(bet, self.check_cards(self.score(self.player_cards)))
             elif decision == "stand":
                 dealer_score = self.score(self.dealer_cards)
                 self.dealer_hit(dealer_score)
+                self.payout(bet, self.check_cards(self.score(self.player_cards),self.score(self.dealer_cards),stand_flag=True))
             elif decision == "stop":
                 break
     
+    # Checks the cards for wins or busts
+    def check_cards(self, player_score, dealer_score=0, stand_flag=False):
+        self.player_score = player_score
+        self.dealer_score = dealer_score
+        self.stand_flag = stand_flag
+        
+        if self.player_score == 21:
+            print("Blackjack")
+            return "b"
+        elif self.player_score > 21:
+            print("Bust!!!")
+            return "l"
+        elif self.stand_flag == True:
+            if self.dealer_score > 21:
+                print("Player Wins!")
+                return "w"
+            elif self.player_score > self.dealer_score:
+                print("Player Wins!")
+                return "w"
+            else:
+                print("Dealer wins")
+                return "l"
+
+
     # Set up new game
     def new_game_setup(self):
         self.player_account = int(input("Enter int amount of player money: "))
@@ -67,13 +89,15 @@ class Blackjack:
     # Method that sets up the game by giving the player 2 cards and 1 card to the computer
     # First it calls the player method and passes the deck as parameter, calling the draw method to return a random integer
     def new_round_setup(self):
-        self.place_bet(self.player_account)
+        bet = self.place_bet(self.player_account)
 
         p_score = self.player([self.deck[self.draw()],self.deck[self.draw()]])
         d_score = self.dealer([self.deck[self.draw()],self.deck[self.draw()]])
         
         self.print_result("p", self.player_cards, p_score)
         self.print_result("d", self.dealer_cards, d_score)
+
+        return bet
 
     # Method that displays what cards the player currently has
     # Adds the total score of the cards
@@ -144,11 +168,14 @@ class Blackjack:
 
         if action == "b":
             self.player_account += (self.bet * 2.5)
+            self.round_end = True
         elif action == "w":
             self.player_account += (self.bet * 2)
+            self.round_end = True
         elif action == "l":
             self.player_account -= self.bet
-
+            self.round_end = True
+        print(self.player_account)
     def __str__(self):
         return self.deck[0][0]
 
