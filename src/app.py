@@ -137,6 +137,18 @@ class Blackjack:
         else:
             return "Not enough money in the account"
 
+    # Handle payouts of bets and money lost
+    def payout(self, bet, action):
+        self.bet = bet
+        self.action = action
+
+        if action == "b":
+            self.player_account += (self.bet * 2.5)
+        elif action == "w":
+            self.player_account += (self.bet * 2)
+        elif action == "l":
+            self.player_account -= self.bet
+
     def __str__(self):
         return self.deck[0][0]
 
