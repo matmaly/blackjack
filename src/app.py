@@ -103,7 +103,7 @@ class Blackjack:
         
         if self.who == "p":
             for card in self.cards:
-                print(card)
+                print(card[0])
             print(f"Player Score: {self.print_score}")
         elif self.who == "d" and show_dealer_cards == False:
             print(f"Dealer Card: {self.cards[0][0]}")
