@@ -21,6 +21,7 @@ class Blackjack:
             decision = input()
             if decision == "hit":
                 score = self.player([self.deck[self.draw()]])
+                self.print_result("p", self.player_cards, score)
                 if score == 21:
                     print("Blackjack")
                     break
@@ -36,6 +37,8 @@ class Blackjack:
     # recursive method that makes dealer hit until he is at 17 or more
     def dealer_hit(self, dealer_score):
         self.dealer_score = dealer_score
+
+        self.print_result("d", self.dealer_cards, dealer_score, True)
 
         if dealer_score >=17:
             return dealer_score
@@ -61,14 +64,9 @@ class Blackjack:
         p_score = self.player([self.deck[self.draw()],self.deck[self.draw()]])
         d_score = self.dealer([self.deck[self.draw()],self.deck[self.draw()]])
         
-        '''
-        print(f"Player Cards: {self.player_cards}")
-        print(f"Plaer Score: {p_score}")
-        print("\n")
-        print(f"Dealer Cards: {self.dealer_cards[0]}")
-        print(f"Dealer Score: {self.dealer_cards[0][1]}")
+        self.print_result("p", self.player_cards, p_score)
+        self.print_result("d", self.dealer_cards, d_score)
 
-        '''
     # Method that displays what cards the player currently has
     # Adds the total score of the cards
     def player(self, new_cards):
@@ -85,9 +83,6 @@ class Blackjack:
         
         score = self.score(self.dealer_cards)
         
-        print(f"Dealer Cards: {self.dealer_cards}")
-        print(f"Dealer Score: {score}")
-
         return score
 
     def score(self, cards):
@@ -99,10 +94,23 @@ class Blackjack:
                 
         return score
     
-    def print_result(self, cards):
+    # Print the current cards depending on the dealer 
+    def print_result(self, who, cards, print_score, show_dealer_cards=False):
+        self.who = who
         self.cards = cards
+        self.print_score = print_score
+        self.show_dealer_cards = show_dealer_cards
         
-        print(f"")
+        if self.who == "p":
+            for card in self.cards:
+                print(card)
+            print(f"Player Score: {self.print_score}")
+        elif self.who == "d" and show_dealer_cards == False:
+            print(f"Dealer Card: {self.cards[0][0]}")
+        elif self.who == "d" and show_dealer_cards == True:
+            for card in self.cards:
+                print(card)
+            print(f"Dealer Score: {self.print_score}")
 
     def __str__(self):
         return self.deck[0][0]
