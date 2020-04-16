@@ -102,15 +102,21 @@ class Blackjack:
         self.show_dealer_cards = show_dealer_cards
         
         if self.who == "p":
+            print("Player Cards:")
             for card in self.cards:
                 print(card[0])
             print(f"Player Score: {self.print_score}")
+            print("\n")
         elif self.who == "d" and show_dealer_cards == False:
-            print(f"Dealer Card: {self.cards[0][0]}")
+            print(f"Dealer Card:\n{self.cards[0][0]}")
+            print(f"Dealer Score: {self.cards[0][1]}")
+            print("\n")
         elif self.who == "d" and show_dealer_cards == True:
+            print("Dealer Cards:")
             for card in self.cards:
                 print(card[0])
             print(f"Dealer Score: {self.print_score}")
+            print("\n")
 
     def __str__(self):
         return self.deck[0][0]
