@@ -12,11 +12,13 @@ class Blackjack:
     cards_left = 51
     player_cards = []
     dealer_cards = []
+    player_account = 0
 
     def __init__(self, player_name):
         self.player_name = player_name
         
-        self.new_game_setup()
+        self.new_game_setup()        
+        self.new_round_setup()
         while True:
             decision = input()
             if decision == "hit":
@@ -34,6 +36,10 @@ class Blackjack:
             elif decision == "stop":
                 break
     
+    # Set up new game
+    def new_game_setup(self):
+        self.player_account = int(input("Enter int amount of player money: "))
+
     # recursive method that makes dealer hit until he is at 17 or more
     def dealer_hit(self, dealer_score):
         self.dealer_score = dealer_score
@@ -60,7 +66,9 @@ class Blackjack:
     
     # Method that sets up the game by giving the player 2 cards and 1 card to the computer
     # First it calls the player method and passes the deck as parameter, calling the draw method to return a random integer
-    def new_game_setup(self):
+    def new_round_setup(self):
+        self.place_bet(self.player_account)
+
         p_score = self.player([self.deck[self.draw()],self.deck[self.draw()]])
         d_score = self.dealer([self.deck[self.draw()],self.deck[self.draw()]])
         
@@ -117,6 +125,17 @@ class Blackjack:
                 print(card[0])
             print(f"Dealer Score: {self.print_score}")
             print("\n")
+    
+    # Place a bet taking the money from the players account
+    def place_bet(self, account):
+        self.account = account
+        self.bet = 0
+
+        if self.account - self.bet >= 0:
+            self.account -= self.bet
+            return self.bet
+        else:
+            return "Not enough money in the account"
 
     def __str__(self):
         return self.deck[0][0]
